@@ -78,7 +78,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             CircleAvatar(
               radius: 50,
               backgroundColor: Colors.pink.shade100,
-              child: const Icon(Icons.person, size: 60, color: Colors.white),
+              backgroundImage: AssetImage('assets/images/05.jpg'),
+              //child: const Icon(Icons.person, size: 60, color: Colors.white),
             ),
             const SizedBox(height: 12),
             Text(

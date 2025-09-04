@@ -3,15 +3,13 @@ import 'dart:io';
 import 'package:nini/register.dart';
 
 class More extends StatefulWidget {
-
-
   @override
   State<More> createState() => _More();
 }
 
 class _More extends State<More> {
-
   bool _isDarkTheme = false;
+
 
   void _toggleTheme() {
     setState(() {
@@ -22,73 +20,90 @@ class _More extends State<More> {
   void _exitApp() {
     exit(0);
   }
+
+  Widget _buildCard(
+      {required IconData icon, required String title, String? subtitle, VoidCallback? onTap, Color? color}) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: (color ?? Colors.blue).withOpacity(0.2),
+          child: Icon(icon, color: color ?? Colors.blue),
+        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: subtitle != null ? Text(subtitle) : null,
+        trailing: onTap == null && title == 'Change Theme'
+            ? Switch(value: _isDarkTheme, onChanged: (value) => _toggleTheme())
+            : null,
+        onTap: onTap,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('More'),
+        centerTitle: true,
+        backgroundColor: Colors.pink,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(12),
         child: ListView(
           children: [
-            ListTile(
-              leading: Icon(Icons.brightness_6, color: Colors.deepPurple),
-              title: Text('Change Theme'),
-              trailing: Switch(
-                value: _isDarkTheme,
-                onChanged: (value) {
-                  _toggleTheme();
-                },
-              ),
+            _buildCard(
+              icon: Icons.brightness_6,
+              title: 'Change Theme',
+              color: Colors.deepPurple,
             ),
-            Divider(),
-
-            ListTile(
-              leading: Icon(Icons.support_agent, color: Colors.green),
-              title: Text('About Us'),
-              subtitle: Text('Get help or ask questions'),
-
+            _buildCard(
+              icon: Icons.support_agent,
+              title: 'About Us',
+              subtitle: 'Get help or ask questions',
+              color: Colors.green,
             ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.app_registration, color: Colors.black),
-              title: Text('Register'),
+            _buildCard(
+              icon: Icons.app_registration,
+              title: 'Register',
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RegistrationForm()),
                 );
               },
+              color: Colors.black,
             ),
-            Divider(),
-
-            ListTile(
-              leading: Icon(Icons.contact_mail, color: Colors.blue),
-              title: Text('Contact Us'),
-              subtitle: Text('Visit our website'),
-
+            _buildCard(
+              icon: Icons.contact_mail,
+              title: 'Contact Us',
+              subtitle: 'Visit our website',
+              color: Colors.blue,
             ),
-            Divider(),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.roundabout_left, color: Colors.pink[200]),
-              title: Text('About'),
+            _buildCard(
+              icon: Icons.roundabout_left,
+              title: 'About',
               onTap: _exitApp,
+              color: Colors.pink,
             ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.accessibility_new_outlined, color: Colors.brown),
-              title: Text('Legal Information'),
+            _buildCard(
+              icon: Icons.accessibility_new_outlined,
+              title: 'Legal Information',
               onTap: _exitApp,
+              color: Colors.brown,
             ),
-            Divider(),
-            ListTile(
-              leading: Icon(Icons.exit_to_app, color: Colors.red),
-              title: Text('Exit'),
+            _buildCard(
+              icon: Icons.exit_to_app,
+              title: 'Exit',
               onTap: _exitApp,
+              color: Colors.red,
             ),
-            Divider(),
           ],
         ),
       ),
     );
   }
 }
+
